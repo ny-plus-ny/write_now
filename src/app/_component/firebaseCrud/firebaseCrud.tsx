@@ -2,6 +2,7 @@
 import FirebaseConfig from "../firebaseConfig/firebaseConfig"
 import {ref, get, set,update, remove, child} from "firebase/database"
 import { useState } from "react"
+import styled from "styled-components";
 
 const database = FirebaseConfig();
 
@@ -130,29 +131,84 @@ function FirebaseCrud(){
     }
 
     return(
-        <>
+        <Container>
             <label>Username</label>
             <input type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
             <br/>
 
-            <label>Title</label>
-            <input type="text" value={title} onChange={e => setTitle(e.target.value)}></input>
+            <ContentsArea>
+                <label>제목</label>
+                <TitleBox type="text" value={title} onChange={e => setTitle(e.target.value)}></TitleBox>
+            </ContentsArea>
             <br/>
 
-            <label>content</label>
-            <input type="text" value={content} onChange={e => setContent(e.target.value)}></input>
+            <ContentsArea>
+                <label>내용</label>
+                <ContentBox value={content} onChange={e => setContent(e.target.value)}></ContentBox>
+            </ContentsArea>
+            {/* <input type="text" value={content} onChange={e => setContent(e.target.value)}></input> */}
             <br/>
 
             <label>date</label>
             <input type="date" value={date} onChange={e => setDate(e.target.value)}></input>
             <br/>
 
-            <button onClick={InsertData}>Add Data</button>
-            <button onClick={UpdateData}>Update Data</button>
+            <BtnWrap>
+                <AddBtn onClick={InsertData}>저장</AddBtn>
+            </BtnWrap>
+            {/* <button onClick={UpdateData}>Update Data</button>
             <button onClick={DeleteData}>Delete Data</button>
-            <button onClick={SelectData}>Select Data</button>
-        </>
+            <button onClick={SelectData}>Select Data</button> */}
+        </ Container>
     )
 }
 
 export default FirebaseCrud
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px;
+`
+
+const ContentsArea = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 18px;
+`
+
+const TitleBox = styled.input`
+    height: 30px;
+    border: 1px solid gray;
+    outline: none;
+    resize: none;
+    font-size: 18px;
+    border-radius: 8px;
+`
+
+const ContentBox = styled.textarea`
+    height: 100px;
+    outline: none;
+    border: 1px solid gray;
+    resize: none;
+    font-size: 16px;
+    border-radius: 8px;
+`
+
+const BtnWrap = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+`
+
+const AddBtn = styled.button`
+    border: 1px solid grey;
+    width: 50px;
+    height: 40px;
+    outline: none;
+    background-color: inherit ;
+    cursor: pointer;
+    border-radius: 10px;
+    /* background-color:; */
+`
