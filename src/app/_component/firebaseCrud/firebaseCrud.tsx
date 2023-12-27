@@ -1,18 +1,34 @@
 "use client"
 import FirebaseConfig from "../firebaseConfig/firebaseConfig"
 import {ref, get, set,update, remove, child} from "firebase/database"
-import { useState } from "react"
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react"
 import styled from "styled-components";
+import Image from "next/image";
+import profile from "../../../../public/images/icon_user.png"
+import iconSaved from "../../../../public/images/icon_save.png"
 
 const database = FirebaseConfig();
 
-function FirebaseCrud(){
+function FirebaseCrud(memotype: string, color: string){
     const dbRef = ref(database)
+    const session = useSession();
 
     let [username, setUsername] = useState('');
     let [title, setTitle] = useState('');
     let [content, setContent] = useState('');
     let [date, setDate] = useState('');
+    let [memoType, setMemoType] = useState('');
+    let [colors, setColors] = useState('');
+
+    useEffect(()=>{
+        const userName = session?.data?.user?.name
+        // console.log("유저네임",userName?.email)
+        setUsername(userName || '');
+        setMemoType(memotype);
+        setColors(color);
+    }, [])
+
 
     let isNullOrWhitespace = value =>{
         value = value.toString()
@@ -35,7 +51,9 @@ function FirebaseCrud(){
                 set(ref(database, 'Customer/' + username), {
                     titles: title,
                     contents: content,
-                    dates: date
+                    dates: date,
+                    memotypes: memoType,
+                    colors: colors,
                 }).then(()=>{
                     alert("customer inserted successfully")
                 })
@@ -109,6 +127,7 @@ function FirebaseCrud(){
 
     }
 
+
     let SelectData = () => {
 
         if( isNullOrWhitespace(username)){
@@ -130,11 +149,16 @@ function FirebaseCrud(){
         })
     }
 
+
     return(
         <Container>
-            <label>Username</label>
-            <input type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
-            <br/>
+         
+            <ProfileArea>
+                <Image src={profile} alt="profileIcon" width={30} height={30} />
+                <label>{username}</label>
+                {/* <input type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
+                <br/> */}
+            </ProfileArea>
 
             <ContentsArea>
                 <label>제목</label>
@@ -154,7 +178,10 @@ function FirebaseCrud(){
             <br/>
 
             <BtnWrap>
-                <AddBtn onClick={InsertData}>저장</AddBtn>
+
+                <AddBtn onClick={InsertData}>
+                    <Image src={iconSaved} alt="iconSaved" width={30} height={30} />
+                </AddBtn>
             </BtnWrap>
             {/* <button onClick={UpdateData}>Update Data</button>
             <button onClick={DeleteData}>Delete Data</button>
@@ -169,6 +196,17 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px 0px;
+`
+
+const ProfileArea = styled.div`
+    margin: 10px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+
 `
 
 const ContentsArea = styled.div`
@@ -197,18 +235,16 @@ const ContentBox = styled.textarea`
 `
 
 const BtnWrap = styled.div`
+    margin-top: 20px;
     display: flex;
     flex-direction: row;
     justify-content: end;
 `
 
 const AddBtn = styled.button`
-    border: 1px solid grey;
-    width: 50px;
-    height: 40px;
     outline: none;
+    all: unset;
     background-color: inherit ;
     cursor: pointer;
-    border-radius: 10px;
-    /* background-color:; */
 `
+
