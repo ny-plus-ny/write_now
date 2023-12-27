@@ -19,14 +19,14 @@ function FirebaseCrud(memotype: string, color: string){
     let [content, setContent] = useState('');
     let [date, setDate] = useState('');
     let [memoType, setMemoType] = useState('');
-    let [colors, setColors] = useState('');
+    // let [colors, setColors] = useState('');
 
     useEffect(()=>{
         const userName = session?.data?.user?.name
         // console.log("유저네임",userName?.email)
         setUsername(userName || '');
         setMemoType(memotype);
-        setColors(color);
+        // setColors(color);
     }, [])
 
 
@@ -53,7 +53,7 @@ function FirebaseCrud(memotype: string, color: string){
                     contents: content,
                     dates: date,
                     memotypes: memoType,
-                    colors: colors,
+                    // colors: colors,
                 }).then(()=>{
                     alert("customer inserted successfully")
                 })
