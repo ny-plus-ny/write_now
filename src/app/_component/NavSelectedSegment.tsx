@@ -11,25 +11,25 @@ export default function NavSelectedSegment(){
     const segment = useSelectedLayoutSegment();
     return(
         <>
-                   { segment === 'home' ? 
+                   { segment === 'memoList' ? 
                     <LiTagSelected>
-                            <StyledLink href={"/home"}>
+                            <StyledLink href={"/memoList"}>
                                 <Menu>
                                     <IconWrapper>
                                         <Image src={memoFill} width={30} height={30} alt="memoIcon"/>
                                     </IconWrapper>
-                                    <TextWrapper>홈</TextWrapper>
+                                    <TextWrapper>메모</TextWrapper>
                                 </Menu>
                             </StyledLink>
                     </LiTagSelected>
                     :
                     <LiTag>
-                    <StyledLink href={"/home"}>
+                    <StyledLink href={"/memoList"}>
                         <Menu>
                             <IconWrapper>
                                 <Image src={memoEmpty} width={30} height={30} alt="memoIcon"/>
                             </IconWrapper>
-                            <TextWrapper>홈</TextWrapper>
+                            <TextWrapper>메모</TextWrapper>
                         </Menu>
                     </StyledLink>
                 </LiTag>
@@ -66,7 +66,7 @@ export default function NavSelectedSegment(){
 const LiTag = styled.li`
     list-style-type: none;
     :hover {
-        background-color: #f2efe6;
+        background-color: #f4f5de;
         border-top-right-radius: 30px;
         border-bottom-right-radius: 30px;
     }
