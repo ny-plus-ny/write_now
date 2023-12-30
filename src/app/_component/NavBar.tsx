@@ -1,24 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import NavSelectedSegment from './NavSelectedSegment';
 import Link from 'next/link';
-import { useSelectedLayoutSegment } from 'next/navigation';
 import Image from 'next/image';
 import profile from '../../../public/images/icon_user.png';
 import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 
 export default function NavBar() {
-  const segment = useSelectedLayoutSegment();
-  // console.log(segment)
   const session = useSession();
-  const userEmail = session.data?.user?.name;
+  const userEmail = useMemo(() => {
+    return session.data?.user?.name;
+  }, [session.data?.user]);
 
-  const isClicked = () => {
-    const router = useRouter;
-  };
   return (
     <Container>
       <Wrapper>
@@ -58,7 +53,6 @@ const Wrapper = styled.div`
   height: inherit;
   width: inherit;
   background-color: #f9f9f9;
-  /* gap: 200px; */
 `;
 
 const LogoArea = styled.div`
